@@ -1,8 +1,11 @@
 # Main run file. Holds the user interface
-#from attribute_manager import attribute_manager 
 import os
 import msvcrt
-from skill_manager import skill_menu
+import add_character
+import attribute_manager
+import inventory_manager
+import search
+import skill_manager
 
 def menu(options):
     index = 0
@@ -21,53 +24,35 @@ def menu(options):
         elif key == b"\r":
             return index        
 
-def add():
-    print("you have entered the add function") #Joseph
-    input("Press Enter to continue...")
-
-def inventory():
-    print("you have entered the inventory management function") #Govenor
-    input("Press Enter to continue...")
-
-def attributes():
-    print("you have entered the attribute management function") #Darin
-    input("Press Enter to continue...")
-
-def search():
-    print("you have entered the search function") #Joseph
-    input("Press Enter to continue...")
-
 def main():
-    selected_character = ""
     options = ["Add Character", "Manage Skills", "Manage Inventory", "Manage Attributes", "Search for Character"]
     while True:
         choice = menu(options)
         if choice == 0:
-            add()
+            add_character.add_menu()
         elif choice == 1:
-            if selected_character != "":
-                skill_menu()
+            if selected_character == "":
+                skill_manager.skill_menu()
             else:
                 print("Please select a character before entering this function.")
                 input("Press Enter to continue...")
-                main()
+                continue
         elif choice == 2:
             if selected_character != "":
-                inventory()
+                inventory_manager.inventory_menu()
             else:
                 print("Please select a character before entering this function.")
                 input("Press Enter to continue...")
-                main()
+                continue
         elif choice == 3:
             if selected_character != "":
-                attributes()
+                attribute_manager.attribute_menu()
             else:
                 print("Please select a character before entering this function.")
                 input("Press Enter to continue...")
-                main()
+                continue
         else:
-            selected_character = search()
+            selected_character = search.search_menu()
 
+selected_character = ""
 main()
-
-#josphen DOLBYAOB

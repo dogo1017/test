@@ -1,6 +1,9 @@
+"""
 import os
-import 
-def main(options):
+import msvcrt
+
+def menu(options):
+    desc = []
     index = 0
     while True:
         os.system('cls')
@@ -14,5 +17,12 @@ def main(options):
             index = (index - 1) % len(options)
         elif key == b"P":
             index = (index + 1) % len(options)
-        elif key == b"\r":
-            return index
+        elif key == b"\r" and index == 0:
+            return index  
+        if index == 0:
+            text = input("Press enter to choose different option")
+              
+        
+        
+menu(["text","return"])
+"""
