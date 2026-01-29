@@ -2,16 +2,17 @@
 
 #Should end up here after a character has been selected and they wanna make/edit a certain inventory
 
-#from main import menu
+
 
 def add_items():
    # characters[selected_character][inventory]
         # access dictionary with saved inventory named 'saved_inventorys'
 
         # print all saved inventory from saved_inventory dictionary
+    print(f"This is what your inventory looks like right now:\n")
     #print(characters[selected_character][inventory])
         # use menu function from main to ask which item to add to inventory or return
-    item_choice = input("Which item would you like to add to your inventory? (type return if you want to go back to menu):  ")
+    item_choice = input('Which item would you like to add to your inventory? (type "return" if you want to go back to menu):  ')
         # if return chosen then return to start of inventory managing function
         # if inventory selected then add inventory to character inventorys in the characters main attribute list
         # return to start of inventory managing function
