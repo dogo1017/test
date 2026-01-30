@@ -1,14 +1,14 @@
 from menu import menu
 
 def compare(selected_character, characters):
-    compare_character = search(characters=characters, comp=True)
+    compare_character = search(characters=characters, boolean=True)
     print(f"{compare_character["name"]} vs {selected_character["name"]}") #FINISH THIS
     while True:
         exit = input("Would you like to return? ").strip().lower()
         if exit == "yes" or exit == "y":
             return characters, selected_character
 
-def search(comp, characters):
+def search(boolean, characters):
     keyword = input("What would you like to search for: ")
     count = 0
     pulled = []
@@ -21,23 +21,24 @@ def search(comp, characters):
         print("No character was found.")
         again = input("Would you like to repeat the search? ")
         if again == "yes":    
-            search(comp, characters)
+            search(compare, characters)
         else:
             return
     else:
         choice = input("Input the number of the character you would like to choose: ")
-        if comp == True:
+        if boolean == True:
             compare_character = pulled[choice-1]
             return compare_character
         else:
             selected_character = pulled[choice-1]
+            selected_character = ""
             return selected_character, characters
 
 def search_menu(characters, selected_character, comp):
     if comp == True:
         characters, selected_character = compare(selected_character, characters)
     else:
-        characters, selected_character = search(characters=characters, comp=False)
+        characters, selected_character = search(characters, boolean=False)
     return characters, selected_character
 
 #define search_menu function with parameters characters, selected_character, compare
