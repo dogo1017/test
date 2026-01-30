@@ -107,16 +107,15 @@ def inventory_managment(characters, selected_character):
         elif choice == 2:
             return
 
-
 from menu import menu
 def inventory_menu(characters, selected_character):
     options = ["Add items", "Remove items", "Return to Menu"]
     while True:
         choice = menu(options)
-        if choice == 0:
+        if choice.get('index') == 0:
             add_items(characters, selected_character)
-        elif choice == 1:
+        elif choice.get('index') == 1:
             remove_items(characters, selected_character)
-        elif choice == 2:
+        elif choice.get('index') == 2:
             return characters, selected_character
 
