@@ -8,7 +8,7 @@ from menu import menu
 import time
 
 def main():
-    selected_character = ""
+    selected_character = "example character 1"
 
     options = ["Add Character", "Manage Skills", "Manage Inventory", "Manage Attributes", "Compare Characters", "Search Characters"]
     classes = [{"name": "rogue", "dmg": 1.2, "dex": 1.5, "int": 1.1, "con": 0.9, "cha": 1.2}, {"name": "warrior", "dmg": 1.5, "dex": 0.9, "int": 0.8, "con": 1.4, "cha": 1.0}, {"name": "mage", "dmg": 1.3, "dex": 0.8, "int": 1.6, "con": 0.7, "cha": 1.1}, {"name": "paladin", "dmg": 1.2, "dex": 0.9, "int": 1.0, "con": 1.3, "cha": 1.4 }, {"name": "ranger", "dmg": 1.3, "dex": 1.4, "int": 1.0, "con": 1.0, "cha": 1.0 }, {"name": "bard", "dmg": 0.9, "dex": 1.1, "int": 1.2, "con": 0.9, "cha": 1.6}, {"name": "tank", "dmg": 0.9, "dex": 0.7, "int": 0.8, "con": 1.7, "cha": 0.9}]
@@ -31,7 +31,7 @@ def main():
                 continue  
         elif choice.get('index') == 2:
             if selected_character != "":
-                characters, selected_character = inventory_manager.inventory_menu(characters, selected_character)
+                characters, selected_character = inventory_manager.inventory_menu(items, characters, selected_character)
             else:
                 print("Please select a character before entering this function.")
                 input("Press Enter to continue...")
