@@ -19,7 +19,7 @@ def main():
             characters = add_character.add_menu(characters, classes, races, items)
         elif choice.get('index') == 1:
             if selected_character == "":
-                characters, selected_character = skill_manager.skill_menu(saved_skills, characters, selected_character)
+                characters, selected_character = skill_manager.skill_menu(characters, selected_character)
             else:
                 print("Please select a character before entering this function.")
                 input("Press Enter to continue...")
