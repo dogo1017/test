@@ -66,7 +66,7 @@ def add_skill(saved_skills, character):
                 print(f"{selected_skill} is already in {character['name']}'s skills!")
                 input("Press Enter to continue...")
             else:
-                character["skills"][selected_skill] = saved_skills[selected_skill]
+                character["skills"].add(selected_skill)  # Changed to add()
                 print(f"Added {selected_skill} to {character['name']}!")
                 input("Press Enter to continue...")
     
@@ -76,13 +76,13 @@ def add_skill(saved_skills, character):
             input("Press Enter to continue...")
             return
             
-        skill_list = list(character["skills"].keys())
+        skill_list = list(character["skills"])
         edit_result = menu([*skill_list, "Return"])
         selected = edit_result['index']
         
         if selected < len(skill_list):
             skill_to_edit = skill_list[selected]
-            skill_info = character["skills"][skill_to_edit]
+            skill_info = saved_skills[skill_to_edit]
             
             skill_data = menu(
                 ["Skill Name", "Skill Description", "Skill Effect", "Effect Strength", "Skill Target", "Save Changes", "Return"],
@@ -106,11 +106,11 @@ def add_skill(saved_skills, character):
                 saved_skills[new_name] = updated_skill
                 
                 if new_name != skill_to_edit:
-                    del character["skills"][skill_to_edit]
+                    character["skills"].remove(skill_to_edit)  # Changed to remove()
                     if skill_to_edit in saved_skills:
                         del saved_skills[skill_to_edit]
                 
-                character["skills"][new_name] = updated_skill
+                character["skills"].add(new_name)  # Changed to add()
                 print("Skill updated!")
                 input("Press Enter to continue...")
     
@@ -136,7 +136,7 @@ def add_skill(saved_skills, character):
                 }
                 
                 saved_skills[skill_name] = new_skill
-                character["skills"][skill_name] = new_skill
+                character["skills"].add(skill_name)  # Changed to add()
                 print(f"Created and added {skill_name} to {character['name']}!")
             else:
                 print("Skill name cannot be empty!")
@@ -150,13 +150,13 @@ def remove_skill(character):
         input("Press Enter to continue...")
         return
     
-    skill_list = list(character["skills"].keys())
+    skill_list = list(character["skills"])
     result = menu([*skill_list, "Return"])
     selected = result['index']
     
     if selected < len(skill_list):
         removed_skill = skill_list[selected]
-        del character["skills"][removed_skill]
+        character["skills"].remove(removed_skill)  # Changed to remove()
         print(f"Removed {removed_skill} from {character['name']}!")
         input("Press Enter to continue...")
 
@@ -165,12 +165,13 @@ def view_skills(saved_skills, character):
     """View all skills for the character"""
     print(f"\n{character['name']}'s Skills:")
     if character["skills"]:
-        for skill_name, skill_info in character["skills"].items():
+        for skill_name in character["skills"]:
+            skill_info = saved_skills.get(skill_name, {})
             print(f"\n  {skill_name}")
-            print(f"    Description: {skill_info['description']}")
-            print(f"    Effect: {skill_info['effect']}")
-            print(f"    Strength: {skill_info['amount']}")
-            print(f"    Target: {skill_info['target']}")
+            print(f"    Description: {skill_info.get('description', 'N/A')}")
+            print(f"    Effect: {skill_info.get('effect', 'N/A')}")
+            print(f"    Strength: {skill_info.get('amount', 'N/A')}")
+            print(f"    Target: {skill_info.get('target', 'N/A')}")
     else:
         print("  No skills yet!")
     input("\nPress Enter to continue...")
