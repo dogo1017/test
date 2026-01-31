@@ -30,7 +30,8 @@ def add_menu(characters, classes, races, items):
             "class": result['toggles'][1], 
             "level": result['numbers'][2], 
             "race": result['toggles'][3], 
-            "attributes": [result['numbers'][5], result['numbers'][6], result['numbers'][7], result['numbers'][8], result['numbers'][9]], 
+            "base_attributes": [result['numbers'][5], result['numbers'][6], result['numbers'][7], result['numbers'][8], result['numbers'][9]], 
+            "attributes": [0, 0, 0, 0, 0],
             "skills": {result['toggles'][11], result['toggles'][12], result['toggles'][13]}, 
             "inventory": [result['toggles'][15], result['toggles'][16], result['toggles'][17], result['toggles'][18], result['toggles'][19]]
             }

@@ -21,7 +21,8 @@ def main():
         "class": "rogue", 
         "level": 15, 
         "race": "Elf", 
-        "attributes": [1.3, 0.8, 0.7, 1.2, 0.8], 
+        "attributes": [], 
+        "base_attributes": [5, 5, 5, 5, 5],
         "skills": set(), 
         "inventory": []}
     ]
@@ -89,6 +90,18 @@ def main():
             # Search Characters
             text.bubble("Search Characters: Need to find a specific character quickly? Use the search function to look through all your saved characters by name, class, race, or any other attribute. Type in a keyword and the system will show you all matching characters. You can then select one to make it your active character for managing skills, inventory, and attributes.", speed=0.02)
             os.system('cls')
-            # Credits
-                #UPDATE ALL CHARACTER STATS AFTER EVERY CHANGE
+        for character in characters:
+            character["attributes"] = character["base_attributes"].copy()
+
+            race_data = None
+            for race in races:
+                if race["name"] == character["race"]:
+                    race_data = race
+                    break
+
+            character["attributes"][0] *= race_data["dmg"]
+            character["attributes"][1] *= race_data["dex"]
+            character["attributes"][2] *= race_data["int"]
+            character["attributes"][3] *= race_data["con"]
+            character["attributes"][4] *= race_data["cha"]
 main()
