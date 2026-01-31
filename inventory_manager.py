@@ -6,8 +6,6 @@ from menu import menu
 
 
 def add_items(items, characters, selected_character):
-    print(f"\nThis is what your inventory looks like right now:\n")
-
     # Find the character object
     current_character = None
     for char in characters:
@@ -24,31 +22,26 @@ def add_items(items, characters, selected_character):
         current_character["inventory"] = []
 
     # Print available items from the items list passed from main
+    print(f"\nAvailable items:\n")
     if len(items) == 0:
         print("No items available.")
-    else:
-        for item in items:
-            print(f"{item['name']}: {item}")
-
-    item_choice = input('Which item would you like to add to your inventory? (type "return" if you want to go back to menu):  ')
-
-    if item_choice.lower() == "return":
+        input("Press Enter to continue...")
         return
-
-    # Find the item in the items list
-    found_item = None
-    for item in items:
-        if item["name"] == item_choice:
-            found_item = item
-            break
     
-    if found_item:
-        current_character["inventory"].append(found_item)
-        print(f"{item_choice} added to inventory.")
-        input("Press Enter to continue...")
-    else:
-        print("Item not found.")
-        input("Press Enter to continue...")
+    # Create menu options from items
+    item_names = [item["name"] for item in items]
+    item_names.append("Return")
+    
+    result = menu(item_names)
+    selected = result['index']
+    
+    if selected >= len(items):
+        return
+    
+    selected_item = items[selected]
+    current_character["inventory"].append(selected_item)
+    print(f"{selected_item['name']} added to inventory.")
+    input("Press Enter to continue...")
 
 
 def remove_items(characters, selected_character):
@@ -81,8 +74,34 @@ def remove_items(characters, selected_character):
         input("Press Enter to continue...")
 
 
+def view_inventory(characters, selected_character):
+    """View all inventory items for the character"""
+    # Find the character object
+    current_character = None
+    for char in characters:
+        if char["name"] == selected_character:
+            current_character = char
+            break
+    
+    if current_character is None:
+        print("Character not found!")
+        input("Press Enter to continue...")
+        return
+    
+    print(f"\n{current_character['name']}'s Inventory:")
+    if "inventory" in current_character and current_character["inventory"]:
+        for item in current_character["inventory"]:
+            print(f"\n  {item['name']}")
+            for key, value in item.items():
+                if key != "name":
+                    print(f"    {key}: {value}")
+    else:
+        print("  No items yet!")
+    input("\nPress Enter to continue...")
+
+
 def inventory_menu(items, characters, selected_character):
-    options = ["Add items", "Remove items", "Return to Menu"]
+    options = ["Add items", "Remove items", "View Inventory", "Return to Menu"]
     while True:
         choice = menu(options)
         if choice.get('index') == 0:
@@ -90,4 +109,6 @@ def inventory_menu(items, characters, selected_character):
         elif choice.get('index') == 1:
             remove_items(characters, selected_character)
         elif choice.get('index') == 2:
+            view_inventory(characters, selected_character)
+        elif choice.get('index') == 3:
             return characters, selected_character
