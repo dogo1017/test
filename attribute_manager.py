@@ -39,8 +39,11 @@ def attribute_menu(characters, selected_character):
         # Build attribute options list
         attribute_options = [
             "Modify Level",
-            "Modify Class", 
-            "Modify Race",
+            "Modify Damage", 
+            "Modify Dexterity",
+            "Modify Intelligence",
+            "Modify Constitution",
+            "Modify Charisma",
             "View All Attributes",
             "Return"
         ]
@@ -52,12 +55,21 @@ def attribute_menu(characters, selected_character):
             # Modify Level
             modify_level(characters, char_index)
         elif choice == 1:
-            # Modify Class
-            modify_class(characters, char_index)
+            # Modify Damage
+            modify_attribute(characters, char_index, 0, "Damage")
         elif choice == 2:
-            # Modify Race
-            modify_race(characters, char_index)
+            # Modify Dexterity
+            modify_attribute(characters, char_index, 1, "Dexterity")
         elif choice == 3:
+            # Modify Intelligence
+            modify_attribute(characters, char_index, 2, "Intelligence")
+        elif choice == 4:
+            # Modify Constitution
+            modify_attribute(characters, char_index, 3, "Constitution")
+        elif choice == 5:
+            # Modify Charisma
+            modify_attribute(characters, char_index, 4, "Charisma")
+        elif choice == 6:
             # View All Attributes
             view_attributes(current_character)
         else:
@@ -91,45 +103,35 @@ def modify_level(characters, char_index):
         input("Press Enter to continue...")
 
 
-def modify_class(characters, char_index):
-    """Modify character class"""
-    classes = ["rogue", "warrior", "mage", "paladin", "ranger", "bard", "tank"]
-    current_class = characters[char_index].get("class", "rogue")
+def modify_attribute(characters, char_index, attr_index, attr_name):
+    """Modify a specific attribute in the attributes list"""
+    # Ensure attributes list exists and has enough elements
+    if "attributes" not in characters[char_index]:
+        characters[char_index]["attributes"] = [1.0, 1.0, 1.0, 1.0, 1.0]
     
-    print(f"\nCurrent Class: {current_class}")
-    print("Select new class:")
+    current_value = characters[char_index]["attributes"][attr_index]
     
-    class_options = [*classes, "Cancel"]
-    result = menu(class_options)
+    print(f"\nCurrent {attr_name}: {current_value}")
+    print("Use Left/Right arrows to adjust (increment: 0.1), Enter to save")
     
-    if result['index'] < len(classes):
-        new_class = classes[result['index']]
-        characters[char_index]["class"] = new_class
-        print(f"\nClass updated to {new_class}!")
+    # Convert current value to increments of 0.1 for the number field
+    current_increments = int(current_value * 10)
+    
+    result = menu(
+        [f"New {attr_name}", "Save Changes", "Cancel"],
+        number=[0],
+        num_min=-100,
+        num_max=100
+    )
+    
+    if result['index'] == 1:  # Save Changes
+        # Convert increments back to decimal value
+        new_value = result['numbers'][0] / 10.0
+        characters[char_index]["attributes"][attr_index] = new_value
+        print(f"\n{attr_name} updated to {new_value}!")
         input("Press Enter to continue...")
     else:
-        print("\nClass change cancelled.")
-        input("Press Enter to continue...")
-
-
-def modify_race(characters, char_index):
-    """Modify character race"""
-    races = ["Human", "Elf", "Ork", "Dwarf", "Halfling"]
-    current_race = characters[char_index].get("race", "Human")
-    
-    print(f"\nCurrent Race: {current_race}")
-    print("Select new race:")
-    
-    race_options = [*races, "Cancel"]
-    result = menu(race_options)
-    
-    if result['index'] < len(races):
-        new_race = races[result['index']]
-        characters[char_index]["race"] = new_race
-        print(f"\nRace updated to {new_race}!")
-        input("Press Enter to continue...")
-    else:
-        print("\nRace change cancelled.")
+        print(f"\n{attr_name} change cancelled.")
         input("Press Enter to continue...")
 
 
@@ -142,16 +144,18 @@ def view_attributes(character):
     print(f"Race: {character.get('race', 'N/A')}")
     print(f"Level: {character.get('level', 1)}")
     
-    # Display stats if they exist
-    if "stats" in character and character["stats"]:
-        print(f"\nStats:")
-        for stat, value in character["stats"].items():
-            print(f"  {stat.upper()}: {value}")
+    # Display attributes
+    if "attributes" in character and character["attributes"]:
+        attr_names = ["Damage", "Dexterity", "Intelligence", "Constitution", "Charisma"]
+        print(f"\nAttributes:")
+        for i, attr_name in enumerate(attr_names):
+            if i < len(character["attributes"]):
+                print(f"  {attr_name}: {character['attributes'][i]}")
     
     # Display skills if they exist
     if "skills" in character and character["skills"]:
         print(f"\nSkills: {len(character['skills'])} total")
-        for skill_name in character["skills"].keys():
+        for skill_name in character["skills"]:
             print(f"  - {skill_name}")
     
     # Display inventory if it exists
