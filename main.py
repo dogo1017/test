@@ -26,11 +26,8 @@ def main():
         "skills": set(), 
         "inventory": []}
     ]
-    saved_skills = {
-        "Fireball": {"description": "Shoots a fireball", "effect": "Attack", "amount": 50, "target": "Enemy"},
-        "Heal": {"description": "Restores health", "effect": "Health", "amount": 30, "target": "Self"},
-        "Shield": {"description": "Increases defense", "effect": "Defense", "amount": 20, "target": "Self"}
-    }
+
+    saved_skills = skill_manager.initialize_default_skills()
     while True:
         choice = menu(options)
         if choice.get('index') == 0:
