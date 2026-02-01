@@ -25,5 +25,8 @@ def selecter(characters):
 def selecter_menu(characters, selected_character):
     import os
     os.system('cls')
-    selected_character, characters = selecter(characters)
+    selected, characters = selecter(characters)
+    if selected is None:
+        return characters, selected_character
+    selected_character = selected["name"]
     return characters, selected_character

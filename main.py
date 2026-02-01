@@ -76,13 +76,13 @@ def main():
                 continue
         elif choice.get('index') == 4:
             if selected_character != "":
-                characters, selected_character = view.view_menu(characters, selected_character)
+                characters, selected_character = view.view_menu(characters, selected_character, classes, races, items)
             else:
                 print("Please select a character before entering this function.")
                 input("Press Enter to continue...")
                 continue
         elif choice.get('index') == 5:
-            characters, selected_character = selecter.search_menu(characters, selected_character)
+            characters, selected_character = selecter.selecter_menu(characters, selected_character)
         elif choice.get('index') == 6:
             text.credits()
         elif choice.get('index') == 7:
